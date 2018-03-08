@@ -1,5 +1,5 @@
 name:           aeson-picker
-version:        0.1.0.2
+version:        0.1.0.3
 synopsis:       Tiny library to get fields from JSON format
 description:    Tiny library to get fields from JSON format
 homepage:       https://github.com/ozzzzz/aeson-picker#readme
@@ -26,7 +26,7 @@ library
   hs-source-dirs:   src
   exposed-modules:  Data.Aeson.Picker
   build-depends:    base >=4.7 && <5
-                  , aeson >= 1.2 && < 1.3
+                  , aeson >= 1.2 && < 2
                   , lens >= 4.15 && < 5
                   , lens-aeson >= 1.0 && < 1.1
                   , text >= 1.2 && < 1.3
