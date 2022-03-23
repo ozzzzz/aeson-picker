@@ -1,3 +1,4 @@
+{-# LANGUAGE CPP               #-}
 {-# LANGUAGE FlexibleInstances #-}
 {-# LANGUAGE RankNTypes        #-}
 module Data.Aeson.Picker
@@ -10,6 +11,10 @@ import           Data.Aeson      (FromJSON (..), Result (..), Value, fromJSON)
 import           Data.Aeson.Lens (AsValue, key, _Value)
 import           Data.Maybe      (fromMaybe)
 import           Data.Text       (Text)
+
+#if MIN_VERSION_aeson(2, 0, 0)
+import qualified Data.Aeson.Key
+#endif
 
 -- | From given JSON and selectors returns typed field. If input JSON is not valid or selected field is not found then error is thrown.
 -- If you need more safe way use '(|-?)' instead. Examples:
@@ -70,5 +75,10 @@ convert value = case fromJSON value of
 -- | Generates getter from given selectors
 genGetter :: AsValue t => [Text] -> Traversal' t Value
 genGetter []     = error "Data.Aeson.Picker.Internal.Functions.genGetter: this should not be happened"
+#if MIN_VERSION_aeson(2, 0, 0)
+genGetter [x]    = key (Data.Aeson.Key.fromText x)
+genGetter (x:xs) = key (Data.Aeson.Key.fromText x) . genGetter xs
+#else
 genGetter [x]    = key x
-genGetter (x:xs) = key x . genGetter xs 
+genGetter (x:xs) = key x . genGetter xs
+#endif

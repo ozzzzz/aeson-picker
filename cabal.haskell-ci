@@ -1,0 +1,12 @@
+distribution: focal
+
+branches: master
+
+cabal-check: False
+
+constraint-set aeson-1
+  ghc: >=8.10 && <9.2
+  constraints: aeson <2
+
+constraint-set aeson-2
+  constraints: aeson >=2
